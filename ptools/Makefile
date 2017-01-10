@@ -10,7 +10,7 @@ CC = g++
 OC = ./opencontainers_1_8_4
 OCINC = $(OC)/include
 
-CFLAGS = -Wall -Wextra -fpic -O -fno-strict-aliasing -DLINUX_ -DOC_NEW_STYLE_INCLUDES -Wno-deprecated -I$(OCINC) -pthread -D_REENTRANT
+CFLAGS = -Wall -Wextra -O -fno-strict-aliasing -DLINUX_ -DOC_NEW_STYLE_INCLUDES -Wno-deprecated -I$(OCINC) -pthread -D_REENTRANT
 
 ## How to build with OCString
 ##CFLAGS = -Wall -O4 -DLINUX_ -DOC_USE_OC_STRING -DOC_USE_OC_EXCEPTIONS -DOC_ONLY_NEEDED_STL -DOC_NEW_STYLE_INCLUDES -Wno-deprecated -I$(OCINC) 
@@ -30,11 +30,11 @@ all: libptools
 	$(CC) $(CFLAGS) -c $<
 
 libptools : $(COM_OBJS)
-ifeq ($(shell uname),Darwin)
-	$(CC) $(CCFLAGS) $(COM_OBJS) -dynamiclib -install_name $(shell pwd)/libptools.dylib -o libptools.dylib
-else
-	$(CC) $(CCFLAGS) $(COM_OBJS) -shared -o libptools.so
-endif
+#ifeq ($(shell uname),Darwin)
+#	$(CC) $(CCFLAGS) $(COM_OBJS) -dynamiclib -install_name $(shell pwd)/libptools.dylib -o libptools.dylib
+#else
+	$(AR) rcs libptools.a  $(COM_OBJS)
+#endif
 
 clean :
 	/bin/rm -rf *.o *.so *.dylib *~
